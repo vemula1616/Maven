@@ -1,38 +1,25 @@
-            }
-        }
-        stage('ContinuousBuild')
-        {
-            steps
-            {
-               sh label: '', script: 'mvn package'
-            }
-        }
-        stage('ContinuousDeployment')
-        {
-            steps
-            {
-               sh label: '', script: '''
-scp /home/ubuntu/.jenkins/workspace/DeclarativePipeline/webapp/target/webapp.war ubuntu@172.31.45.245:/var/lib/tomcat8/webapps/newtestapp.war'''
-            }
-        }
-        stage('ContinuousTesting')
-        {
-            steps
-            {
-                git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-                sh label: '', script: 'java -jar /home/ubuntu/.jenkins/workspace/DeclarativePipeline/testing.jar'
-            }
-        }
-        stage('ContinuousDelivery')
-        {
-            steps
-            {
-                input submitter: 'srinivas', message: 'Waiting for Approval!'
-                
-                 sh label: '', script: '''
-scp /home/ubuntu/.jenkins/workspace/DeclarativePipeline/webapp/target/webapp.war ubuntu@172.31.42.87:/var/lib/tomcat8/webapps/newprodapp.war'''
-            }
-        }
-    }
+node('master')
+{
+stage('continousdownload')
+{
+   git 'https://github.com/vemula1616/Maven.git' 
 }
+stage('contnuousbuild')
+{
+      sh 'mvn package'
+}
+stage('continuousdeployment')
+{
+  sh 'scp /home/ubuntu/.jenkins/workspace/scriptedpipeline/webapp/target/webapp.war ubuntu@172.31.7.131:/var/lib/tomcat8/webapps/test.war'  
+}
+stage('continuoustesting')
+{
+   git 'https://github.com/vemula1616/FunctionalTesting.git'
+   sh 'java -jar /home/ubuntu/.jenkins/workspace/scriptedpipeline/testing.jar'
+}
+stage('continuousdelivery')
+{
+  sh 'scp /home/ubuntu/.jenkins/workspace/scriptedpipeline/webapp/target/webapp.war ubuntu@172.31.9.140:/var/lib/tomcat8/webapps/prod.war'  
 
+}
+}
