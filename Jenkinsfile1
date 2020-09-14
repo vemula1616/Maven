@@ -1,15 +1,11 @@
 node('master')
 {
-stage('continousdownload')
+stage('continousdownload_loan')
 {
    git 'https://github.com/vemula1616/Maven.git'
 }
-stage('contnuousbuild')
+stage('contnuousbuild_loan')
 {
       sh 'mvn package'
-}
-stage('continuousdeployment')
-{
-  sh 'scp /home/ubuntu/.jenkins/workspace/scriptedpipeline/webapp/target/webapp.war ubuntu@172.31.7.131:/var/lib/tomcat8/webapps/test.war'
 }
 }
