@@ -1,4 +1,4 @@
-node('mylabels')
+node('slave1')
 {
 stage('continousdownload_personalloan')
 {
